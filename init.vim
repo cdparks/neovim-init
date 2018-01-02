@@ -9,7 +9,7 @@ endif
 call plug#begin('~/.config/nvim/plugged')
 
   " Solarized theme
-  Plug 'iCyMind/NeoSolarized'
+  Plug 'altercation/vim-colors-solarized'
 
   " Haskell plugins
   Plug 'neovimhaskell/haskell-vim'
@@ -48,21 +48,30 @@ set scrolloff=8
 " Continue comment marker in new lines
 set formatoptions+=o
 
-" Hard-wrap long lines as you type them
-set textwidth=0
+" Wrap long lines as you type them
+set textwidth=100
 
 " Insert 2 spaces when TAB is pressed
 set expandtab
 set tabstop=2
 
+" Real tabs for Makefiles though
+autocmd FileType make set noexpandtab
+
 " Indentation amount for < and > commands
 set shiftwidth=2
+
+" Highlight whitespace characters
+set list listchars=tab:•\ ,extends:»,precedes:«,trail:·
 
 " Prevents inserting two spaces after punctuation on a join (J)
 set nojoinspaces
 
 " Use Esc to exit insert mode in terminal
 tnoremap <Esc> <C-\><C-n>
+
+" Use a reasonable file encoding
+set encoding=utf-8
 
 " Use homerow movement keys to move between panes
 nnoremap <C-h> <C-w>h
@@ -74,13 +83,37 @@ nnoremap <C-l> <C-w>l
 set splitbelow
 set splitright
 
-" Enable 24-bit color
-set termguicolors
+" Disable guicursor
+set guicursor=
+
+" Enable mouse for gui
+set mouse=a
+set mousehide
+
+" Highlight searches, search incrementally
+set hlsearch
+set incsearch
+
+" Ignore case unless capital letters are used
+set ignorecase
+set smartcase
+
+" Ignore files ending with these extensions
+set wildignore+=*\\tmp\\*,*.swp,*.swo,*.zip,.git,.cabal-sandbox
+set wildmode=longest,list,full
+set wildmenu
+
+if has('gui_running')
+  " Remove the toolbar
+  set guioptions-=T
+else
+  " Do this if your emulator won't set xterm-256color
+  let g:solarized_termtrans=1
+endif
 
 " Enable Solarized color scheme
-colorscheme NeoSolarized
+colorscheme solarized
 set background=dark
-let g:neosolarized_contrast = "high"
 
 " Enable Solarized airline and don't display INSERT mode
 let g:airline_theme='solarized'
@@ -121,3 +154,20 @@ endf
 " :VTerm => :vnew term://<args>
 command! -nargs=* Term call s:openTerm(<q-args>, 0)
 command! -nargs=* VTerm call s:openTerm(<q-args>, 1)
+
+" Enable/disable Syntastic
+map <Leader>s :SyntasticToggleMode<CR>
+
+" Bindings for ghc-mod
+
+" Insert type for top-level declaration
+map <silent> tw :GhcModTypeInsert<CR>
+
+" Case split expression under cursor
+map <silent> ts :GhcModSplitFunCase<CR>
+
+" Query type of expression under cursor
+map <silent> tt :GhcModType<CR>
+
+" Erase type query
+map <silent> tc :GhcModTypeClear<CR>
