@@ -13,6 +13,8 @@ call plug#begin('~/.config/nvim/plugged')
 
   " Haskell plugins
   Plug 'neovimhaskell/haskell-vim'
+  Plug 'alx741/vim-hindent'
+  Plug 'alx741/vim-stylishask'
 
   " ALE
   Plug 'w0rp/ale'
@@ -30,6 +32,9 @@ call plug#begin('~/.config/nvim/plugged')
 
   " Hybrid line numbers
   Plug 'jeffkreeftmeijer/vim-numbertoggle'
+
+  " Neoformat for prettier
+  Plug 'sbdchd/neoformat'
 
 call plug#end()
 
@@ -155,19 +160,41 @@ endf
 command! -nargs=* Term call s:openTerm(<q-args>, 0)
 command! -nargs=* VTerm call s:openTerm(<q-args>, 1)
 
-" Enable/disable Syntastic
-map <Leader>s :SyntasticToggleMode<CR>
+" Copy to clipboard
+vnoremap  <leader>y  "+y
+nnoremap  <leader>y  "+y
 
-" Bindings for ghc-mod
+" Paste from clipboard
+nnoremap <leader>p "+p
+nnoremap <leader>P "+P
+vnoremap <leader>p "+p
+vnoremap <leader>P "+P
 
-" Insert type for top-level declaration
-map <silent> tw :GhcModTypeInsert<CR>
+" ----- neovimhaskell/haskell-vim -----
 
-" Case split expression under cursor
-map <silent> ts :GhcModSplitFunCase<CR>
+" Align 'then' two spaces after 'if'
+let g:haskell_indent_if = 2
 
-" Query type of expression under cursor
-map <silent> tt :GhcModType<CR>
+" Indent 'where' block two spaces under previous body
+let g:haskell_indent_before_where = 2
 
-" Erase type query
-map <silent> tc :GhcModTypeClear<CR>
+" Allow a second case indent style (see haskell-vim README)
+let g:haskell_indent_case_alternative = 1
+
+" Only next under 'let' if there's an equals sign
+let g:haskell_indent_let_no_in = 0
+
+" ----- w0rp/ale -----
+
+let g:ale_linters = {
+      \ 'haskell': ['stack-ghc', 'hlint'],
+      \ }
+
+" ----- sbdchd/neoformat -----
+
+let g:neoformat_javascript_prettier = {
+      \ 'exe': expand('~/code/megarepo/frontend/frontend-entities/node_modules/.bin/prettier'),
+      \ 'args': ['--stdin', '--stdin-filepath', '%:p'],
+      \ 'stdin': 1,
+      \ }
+
