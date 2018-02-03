@@ -90,10 +90,6 @@ set splitright
 " Disable guicursor
 set guicursor=
 
-" Enable mouse for gui
-set mouse=a
-set mousehide
-
 " Highlight searches, search incrementally
 set hlsearch
 set incsearch
