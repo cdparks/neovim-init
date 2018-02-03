@@ -13,7 +13,6 @@ call plug#begin('~/.config/nvim/plugged')
 
   " Haskell plugins
   Plug 'neovimhaskell/haskell-vim'
-  Plug 'alx741/vim-hindent'
   Plug 'alx741/vim-stylishask'
 
   " ALE
