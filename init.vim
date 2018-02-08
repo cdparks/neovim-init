@@ -13,7 +13,6 @@ call plug#begin('~/.config/nvim/plugged')
 
   " Haskell plugins
   Plug 'neovimhaskell/haskell-vim'
-  Plug 'alx741/vim-hindent'
   Plug 'alx741/vim-stylishask'
 
   " ALE
@@ -35,6 +34,9 @@ call plug#begin('~/.config/nvim/plugged')
 
   " Neoformat for prettier
   Plug 'sbdchd/neoformat'
+
+  " FZF
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
 call plug#end()
 
@@ -198,3 +200,11 @@ let g:neoformat_javascript_prettier = {
       \ 'stdin': 1,
       \ }
 
+" ----- junegunn/fzf -----
+nnoremap <Leader>f :FZF<cr>
+
+let g:fzf_action = {
+      \ 'enter': 'split',
+      \ 'ctrl-s': 'split',
+      \ 'ctrl-v': 'vsplit'
+      \ }
