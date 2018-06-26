@@ -38,6 +38,9 @@ call plug#begin('~/.config/nvim/plugged')
   " FZF
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
+  " Digraphs
+  Plug 'chrisbra/unicode.vim'
+
 call plug#end()
 
 " Show matching brackets
@@ -155,8 +158,10 @@ endf
 
 " :Term => :new term://<args>
 " :VTerm => :vnew term://<args>
+" :Watch => :10new :term://stack build --fast --pedantic --test --no-run-tests --file-watch .
 command! -nargs=* Term call s:openTerm(<q-args>, 0)
 command! -nargs=* VTerm call s:openTerm(<q-args>, 1)
+command! Watch exec '10new term://stack build --fast --pedantic --test --no-run-tests --file-watch .'
 
 " Copy to clipboard
 vnoremap  <leader>y  "+y
@@ -173,11 +178,29 @@ vnoremap <leader>P "+P
 " Align 'then' two spaces after 'if'
 let g:haskell_indent_if = 2
 
-" Indent 'where' block two spaces under previous body
-let g:haskell_indent_before_where = 2
-
 " Allow a second case indent style (see haskell-vim README)
 let g:haskell_indent_case_alternative = 1
+
+" Enable highlighting of forall
+let g:haskell_enable_quantification = 1
+
+" Enable highlighting of mdo and rec
+let g:haskell_enable_recursivedo = 1
+
+" Enable highlighting of pattern
+let g:haskell_enable_pattern_synonyms = 1
+
+" Enable highlighting of type roles
+let g:haskell_enable_typeroles = 1
+
+" Indent 'where' block one space under previous body
+let g:haskell_indent_before_where = 1
+
+" Indent bindings under 'where' one more space
+let g:haskell_indent_after_bare_where = 1
+
+" Don't indent 'in' for 'let-in'
+let g:haskell_indent_in = 0
 
 " Only next under 'let' if there's an equals sign
 let g:haskell_indent_let_no_in = 0
@@ -187,6 +210,10 @@ let g:haskell_indent_let_no_in = 0
 let g:ale_linters = {
       \ 'haskell': ['stack-ghc', 'hlint'],
       \ }
+
+" flow likes to take my machine down
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
 
 " ----- sbdchd/neoformat -----
 
