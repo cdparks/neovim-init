@@ -15,6 +15,10 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'neovimhaskell/haskell-vim'
   Plug 'alx741/vim-stylishask'
 
+  " PureScript plugins
+  Plug 'purescript-contrib/purescript-vim'
+  Plug 'frigoeu/psc-ide-vim'
+
   " ALE
   Plug 'w0rp/ale'
 
