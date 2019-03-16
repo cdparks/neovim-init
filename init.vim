@@ -11,9 +11,17 @@ call plug#begin('~/.config/nvim/plugged')
   " Solarized theme
   Plug 'altercation/vim-colors-solarized'
 
+  " Python scripting support
+  Plug 'roxma/python-support.nvim'
+
   " Haskell plugins
   Plug 'neovimhaskell/haskell-vim'
-  Plug 'alx741/vim-stylishask'
+
+  " PureScript plugins
+  Plug 'purescript-contrib/purescript-vim'
+
+  " Agda plugins
+  Plug 'derekelkins/agda-vim'
 
   " PureScript plugins
   Plug 'purescript-contrib/purescript-vim'
@@ -125,12 +133,16 @@ endif
 colorscheme solarized
 set background=dark
 
+" Disable python3
+let g:python_support_python3_require = 0
+
 " Enable Solarized airline and don't display INSERT mode
 let g:airline_theme='solarized'
 let g:airline_solarized_bg='dark'
 set noshowmode
 
 " Enable powerline fonts
+" For installation, see https://github.com/powerline/fonts
 let g:airline_powerline_fonts = 1
 
 " Enable ale in airline
@@ -201,7 +213,7 @@ let g:haskell_enable_typeroles = 1
 let g:haskell_indent_before_where = 1
 
 " Indent bindings under 'where' one more space
-let g:haskell_indent_after_bare_where = 1
+let g:haskell_indent_after_bare_where = 2
 
 " Don't indent 'in' for 'let-in'
 let g:haskell_indent_in = 0
@@ -209,15 +221,33 @@ let g:haskell_indent_in = 0
 " Only next under 'let' if there's an equals sign
 let g:haskell_indent_let_no_in = 0
 
+" ----- purescript-contrib/purescript-vim -----
+
+let g:purescript_indent_if = 2
+let g:purescript_indent_case = 2
+let g:purescript_indent_let = 2
+let g:purescript_indent_where = 2
+let g:purescript_indent_do = 2
+let g:purescript_indent_in = 1
+
 " ----- w0rp/ale -----
 
 let g:ale_linters = {
-      \ 'haskell': ['stack-ghc', 'hlint'],
+      \ 'haskell': ['hlint'],
       \ }
+
+let g:ale_fixers = {
+      \ 'haskell': ['hlint', 'brittany', 'stylish-haskell'],
+      \ }
+
+let g:ale_haskell_hlint_executable='stack'
+let g:ale_haskell_brittany_executable='stack'
+let g:ale_haskell_stylish_haskell_executable='stack'
 
 " flow likes to take my machine down
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
+let g:ale_fix_on_save = 1
 
 " ----- sbdchd/neoformat -----
 
@@ -235,3 +265,4 @@ let g:fzf_action = {
       \ 'ctrl-s': 'split',
       \ 'ctrl-v': 'vsplit'
       \ }
+
